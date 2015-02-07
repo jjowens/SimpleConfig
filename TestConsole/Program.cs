@@ -15,21 +15,30 @@ namespace TestConsole
         {
             Console.Title = "Test Console";
 
+            getAppSettings();
+            getDBConnections();
+
+            Console.WriteLine("Done");
+            Console.ReadLine();
+        }
+
+        private static void getAppSettings()
+        {
             // GET INDIVIDUAL SETTINGS
-            Console.WriteLine("FullName: {0}", SimpleConfig.AppConfig.getConfigByName("FullName"));
-            Console.WriteLine("Age: {0}", SimpleConfig.AppConfig.getConfigByNameAsInt("Age"));
-            Console.WriteLine("Debug: {0}", SimpleConfig.AppConfig.getConfigByNameAsBool("Debug"));
+            Console.WriteLine("FullName: {0}", SimpleConfig.AppConfig.getConfig("FullName"));
+            Console.WriteLine("Age: {0}", SimpleConfig.AppConfig.getConfigAsInt("Age"));
+            Console.WriteLine("Debug: {0}", SimpleConfig.AppConfig.getConfigAsBool("Debug"));
 
             // GET LIST OF STRINGS - BLACKLIST
-            var lst = SimpleConfig.AppConfig.getConfigByNameAsListString("blacklist", ";").OrderBy(x => x);
+            var lst = SimpleConfig.AppConfig.getConfigAsListString("blacklist", ";").OrderBy(x => x);
             foreach (var l in lst)
             {
                 Console.WriteLine(l);
             }
 
             // GET DATE RANGE - DATEFROM, DATETO
-            var dateFrom = SimpleConfig.AppConfig.getConfigByNameAsDateTime("DateFrom");
-            var dateTo = SimpleConfig.AppConfig.getConfigByNameAsDateTime("DateTo");
+            var dateFrom = SimpleConfig.AppConfig.getConfigAsDateTime("DateFrom");
+            var dateTo = SimpleConfig.AppConfig.getConfigAsDateTime("DateTo");
 
             var sql = string.Format("SELECT * FROM Appointments WHERE Booked BETWEEN '{0}' AND '{1}'",
                 dateFrom.ToShortDateString(), dateTo.ToShortDateString());
@@ -50,19 +59,42 @@ namespace TestConsole
             string appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
 
             // ADD NEW APP SETTING - BOOK
-            SimpleConfig.AppConfig.SetConfigByName(appPath, "Book", "Bleak House by Charles Dickens");
+            SimpleConfig.AppConfig.SetConfig(appPath, "Book", "Bleak House by Charles Dickens");
 
             // CHANGE APP SETTING - FOO
-            SimpleConfig.AppConfig.SetConfigByName(appPath, "Foo", "Chelsea");
+            SimpleConfig.AppConfig.SetConfig(appPath, "Foo", "Chelsea");
 
             // REMOVE CONFIG - ACCOUNTNUMBER
             SimpleConfig.AppConfig.RemoveConfig(appPath, "AccountNumber");
 
             // REMOVE CONFIG BY VALUE
             SimpleConfig.AppConfig.RemoveConfigByValue(appPath, "Checklist.txt", true);
-
-            Console.WriteLine("Done");
-            Console.ReadLine();
         }
+
+         private static void getDBConnections()
+        {
+
+            //// GET ALL DATABASE CONNECTIONS AS DICTIONARY
+            //var dict = SimpleConfig.DBConfig.getConnectionsAsDictionary();
+
+            //foreach (var d in dict)
+            //{
+            //    Console.WriteLine("Key: {0}. Value: {1}", d.Key, d.Value);
+            //}
+
+            //string appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+
+            //// ADD NEW APP SETTING - BOOK
+            //SimpleConfig.DBConfig.SetConnection(appPath, "Foo", "Data Source=.;Initial Catalog=CarRegistrations;IntegratedSecurity=True");
+
+            //// CHANGE APP SETTING - FOO
+            //SimpleConfig.DBConfig.SetConnection(appPath, "Airlines", "Data Source=.;Initial Catalog=FlightsForYouLtd;IntegratedSecurity=True");
+
+            //// REMOVE CONFIG - ACCOUNTNUMBER
+            //SimpleConfig.AppConfig.RemoveConfig(appPath, "Foo");
+
+        }
+
+
     }
 }

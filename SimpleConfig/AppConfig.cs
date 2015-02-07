@@ -46,7 +46,7 @@ namespace SimpleConfig
             return dict;
         }
 
-        public static string getConfigByName(string name)
+        public static string getConfig(string name)
         {
             string result = string.Empty;
 
@@ -55,9 +55,9 @@ namespace SimpleConfig
             return result;
         }
 
-        public static bool getConfigByNameAsBool(string name)
+        public static bool getConfigAsBool(string name)
         {
-            string temp = getConfigByName(name);
+            string temp = getConfig(name);
 
             bool result = false;
 
@@ -66,9 +66,9 @@ namespace SimpleConfig
             return result;
         }
 
-        public static int getConfigByNameAsInt(string name)
+        public static int getConfigAsInt(string name)
         {
-            string temp = getConfigByName(name);
+            string temp = getConfig(name);
 
             int result = 0;
 
@@ -77,9 +77,9 @@ namespace SimpleConfig
             return result;
         }
 
-        public static double getConfigByNameAsDouble(string name)
+        public static double getConfigAsDouble(string name)
         {
-            string temp = getConfigByName(name);
+            string temp = getConfig(name);
 
             double result = 0;
 
@@ -88,9 +88,9 @@ namespace SimpleConfig
             return result;
         }
 
-        public static DateTime getConfigByNameAsDateTime(string name)
+        public static DateTime getConfigAsDateTime(string name)
         {
-            string temp = getConfigByName(name);
+            string temp = getConfig(name);
 
             DateTime result = DateTime.Now;
 
@@ -99,9 +99,9 @@ namespace SimpleConfig
             return result;
         }
 
-        public static List<string> getConfigByNameAsListString(string name, string delimiter)
+        public static List<string> getConfigAsListString(string name, string delimiter)
         {
-            string temp = getConfigByName(name);
+            string temp = getConfig(name);
 
             List<string> result = temp.Split(new string[] { delimiter }, StringSplitOptions.None).ToList();
 
@@ -110,7 +110,7 @@ namespace SimpleConfig
         #endregion
 
         #region "##### SET APP SETTINGS"
-        public static void SetConfigByName(string applicationPath, string name, string contents)
+        public static void SetConfig(string applicationPath, string name, string contents)
         {
             System.Configuration.Configuration d = System.Configuration.ConfigurationManager.OpenExeConfiguration(applicationPath);
             
