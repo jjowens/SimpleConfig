@@ -62,7 +62,7 @@ namespace TestConsole
             SimpleConfig.AppConfig.SetConfig(appPath, "Book", "Bleak House by Charles Dickens");
 
             // CHANGE APP SETTING - FOO
-            SimpleConfig.AppConfig.SetConfig(appPath, "Foo", "Chelsea");
+            SimpleConfig.AppConfig.SetConfig(appPath, "Foo", "Manchester");
 
             // REMOVE CONFIG - ACCOUNTNUMBER
             SimpleConfig.AppConfig.RemoveConfig(appPath, "AccountNumber");
