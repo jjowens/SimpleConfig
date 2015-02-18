@@ -12,7 +12,7 @@ SimpleConfig.AppConfig.getConfigAsInt("Age"); // GETS VALUE AS INT
 SimpleConfig.AppConfig.getConfigAsBool("Debug"); // GETS VALUE AS BOOL
 ```
 
-Set Settings. Strongly Typed 
+Set and remove Settings. Strongly Typed 
 ```csharp
 string appPath = @"C:\test\testconsole.exe" // SET FILE PATH TO APPLICATION, NOT CONFIG FILE
 
@@ -33,6 +33,16 @@ SimpleConfig.AppConfig.RemoveConfigByValue(appPath, "Checklist.txt", true);
 
 You can get or set Database connection strings by running the following commands.
 
+Get Connection Strings
+```csharp
+// GET CONNECTION STRING
+SimpleConfig.DBConfig.getConnection("videogames");
+
+// GET ALL DATABASE CONNECTIONS AS DICTIONARY
+var dict = SimpleConfig.DBConfig.getConnectionsAsDictionary();
+```
+
+Set and remove Connection Strings
 ```csharp
 // ADD NEW CONNECTION STRING
 SimpleConfig.DBConfig.SetConnection(appPath, "videogames", "Data Source=.;Initial Catalog=gameconsoles;IntegratedSecurity=True");
