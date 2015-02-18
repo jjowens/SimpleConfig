@@ -74,24 +74,30 @@ namespace TestConsole
          private static void getDBConnections()
         {
 
-            //// GET ALL DATABASE CONNECTIONS AS DICTIONARY
-            //var dict = SimpleConfig.DBConfig.getConnectionsAsDictionary();
+            // GET ALL DATABASE CONNECTIONS AS DICTIONARY
+            var dict = SimpleConfig.DBConfig.getConnectionsAsDictionary();
 
-            //foreach (var d in dict)
-            //{
-            //    Console.WriteLine("Key: {0}. Value: {1}", d.Key, d.Value);
-            //}
+            foreach (var d in dict)
+            {
+                Console.WriteLine("Key: {0}. Value: {1}", d.Key, d.Value);
+            }
 
-            //string appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            string appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
 
-            //// ADD NEW APP SETTING - BOOK
-            //SimpleConfig.DBConfig.SetConnection(appPath, "Foo", "Data Source=.;Initial Catalog=CarRegistrations;IntegratedSecurity=True");
+             Console.WriteLine("AppPath: {0}", appPath);
 
-            //// CHANGE APP SETTING - FOO
-            //SimpleConfig.DBConfig.SetConnection(appPath, "Airlines", "Data Source=.;Initial Catalog=FlightsForYouLtd;IntegratedSecurity=True");
+             // ADD NEW CONNECTION STRING
+             SimpleConfig.DBConfig.SetConnection(appPath, "videogames", "Data Source=.;Initial Catalog=gameconsoles;IntegratedSecurity=True");
 
-            //// REMOVE CONFIG - ACCOUNTNUMBER
-            //SimpleConfig.AppConfig.RemoveConfig(appPath, "Foo");
+             // UPDATE NEW CONNECTION STRING
+             SimpleConfig.DBConfig.SetConnection(appPath, "Airlines", "Data Source=.;Initial Catalog=FlightsAbroadLtd;IntegratedSecurity=True");
+
+             // REMOVE CONNECTION STRING
+             SimpleConfig.DBConfig.RemoveConnection(appPath, "Foo");
+
+             // GET CONNECTION STRING
+             Console.WriteLine("Videogames: {0}", SimpleConfig.DBConfig.getConnection("videogames"));
+
 
         }
 

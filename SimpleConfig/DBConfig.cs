@@ -26,59 +26,42 @@ namespace SimpleConfig
 
         #region "##### GET CONNECTION STRINGS"
 
-        public static Dictionary<string, string> getConnectionsAsDictionary(string delimiter = " ")
+        public static Dictionary<string, string> getConnectionsAsDictionary(string delimiter = " ", bool ignoreLocalSQLServer = true)
         {
             Dictionary<string, string> dict = new Dictionary<string, string>();
 
             var configs = System.Configuration.ConfigurationManager.ConnectionStrings;
 
-            foreach (var c in configs)
+            foreach (ConnectionStringSettings  c in configs)
             {
-                var conn = System.Configuration.ConfigurationManager.ConnectionStrings[c.ToString()];
-
-                if (conn == null)
+                if (string.IsNullOrEmpty(c.Name))
                 {
                     continue;
                 }
 
-                if (!dict.ContainsKey(conn.Name))
+                // SKIP LOCALSQLSERVER
+                if (c.Name.ToLower().Trim() == "localsqlserver")
                 {
-                    dict.Add(conn.Name, conn.ConnectionString);
+                    if (ignoreLocalSQLServer)
+                    {
+                        continue;
+                    }
+                }
+
+                if (!dict.ContainsKey(c.Name.Trim()))
+                {
+                    dict.Add(c.Name.Trim(), c.ConnectionString);
                 }
             }
 
             return dict;
         }
 
-        public static List<string> getConnectionsAsList(string delimiter = " ")
-        {
-            List<string> lst = new List<string>();
-
-            var configs = System.Configuration.ConfigurationManager.ConnectionStrings;
-
-            foreach (var c in configs)
-            {
-                var conn = System.Configuration.ConfigurationManager.ConnectionStrings[c.ToString()];
-
-                if (conn == null)
-                {
-                    continue;
-                }
-
-                if (!lst.Contains(conn.ConnectionString))
-                {
-                    lst.Add(conn.ConnectionString);
-                }
-            }
-
-            return lst;
-        }
-
         public static string getConnection(string name)
         {
             string result = string.Empty;
 
-            result = System.Configuration.ConfigurationManager.AppSettings[name];
+            result = System.Configuration.ConfigurationManager.ConnectionStrings[name].ConnectionString;
 
             return result;
         }
@@ -106,12 +89,11 @@ namespace SimpleConfig
         {
             System.Configuration.Configuration d = System.Configuration.ConfigurationManager.OpenExeConfiguration(applicationPath);
 
-            d.AppSettings.Settings.Remove(name);
+            d.ConnectionStrings.ConnectionStrings.Remove(name);
 
             d.Save(ConfigurationSaveMode.Minimal);
         }
 
-        //todo: REMOVE DATABASE CONNECTION BY VALUE
         #endregion
 
     }
