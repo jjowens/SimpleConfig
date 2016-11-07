@@ -61,7 +61,12 @@ namespace SimpleConfig
         {
             string result = string.Empty;
 
-            result = System.Configuration.ConfigurationManager.ConnectionStrings[name].ConnectionString;
+            var connStrings = System.Configuration.ConfigurationManager.ConnectionStrings[name];
+
+            if (connStrings != null)
+            {
+                result = connStrings.ConnectionString;
+            }
 
             return result;
         }
